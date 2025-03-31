@@ -1,0 +1,99 @@
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { useState } from 'react';
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-[#fefae0] text-[#5a3e2b] font-serif">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/stress-buster" element={<StressBuster />} />
+          <Route path="/study-planner" element={<StudyPlanner />} />
+          <Route path="/relaxation" element={<Relaxation />} />
+          <Route path="/todo-list" element={<TodoList />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+function Navbar() {
+  return (
+    <nav className="bg-[#a67c52] p-4 text-white flex justify-between rounded-b-lg shadow-md">
+      <h1 className="text-xl font-bold">Zenith Study</h1>
+      <div className="space-x-4">
+        <Link to="/" className="hover:underline">Home</Link>
+        <Link to="/stress-buster" className="hover:underline">Stress Buster</Link>
+        <Link to="/study-planner" className="hover:underline">Study Planner</Link>
+        <Link to="/relaxation" className="hover:underline">Relaxation</Link>
+        <Link to="/todo-list" className="hover:underline">To-Do List</Link>
+      </div>
+    </nav>
+  );
+}
+
+function Home() {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-4xl font-bold">Welcome to Zenith Study</h1>
+      <p className="text-[#5a3e2b] mt-4">Your stress-free academic companion.</p>
+    </div>
+  );
+}
+
+function StressBuster() {
+  return <PageTemplate title="Stress Buster Hub" content="Relax and reduce academic stress with mindfulness tools." />;
+}
+
+function StudyPlanner() {
+  return <PageTemplate title="Smart Study Planner" content="Plan and track your studies effectively." />;
+}
+
+function Relaxation() {
+  return <PageTemplate title="Relaxation Exercises" content="Try guided breathing and mindfulness techniques to stay calm." />;
+}
+
+function TodoList() {
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+
+  const addTask = () => {
+    if (task.trim() !== "") {
+      setTasks([...tasks, task]);
+      setTask("");
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold">To-Do List</h1>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Enter a task"
+        className="mt-4 p-2 border rounded bg-white"
+      />
+      <button onClick={addTask} className="mt-2 bg-[#a67c52] text-white px-4 py-2 rounded">
+        Add Task
+      </button>
+      <ul className="mt-4">
+        {tasks.map((t, index) => (
+          <li key={index} className="p-2 bg-[#fae1dd] rounded mt-2">{t}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PageTemplate({ title, content }) {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold">{title}</h1>
+      <p className="text-[#5a3e2b] mt-2">{content}</p>
+    </div>
+  );
+}
+
+export default App;
